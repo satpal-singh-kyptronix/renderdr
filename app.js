@@ -30,7 +30,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://ensembledemospace.com",  // Allow all origins for development
+    origin: "https://wonderful-liger-9ebf7c.netlify.app",  // Allow all origins for development
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -41,7 +41,7 @@ const io = new Server(server, {
 
 
 app.use(cors({
-  origin: "https://ensembledemospace.com", // Match frontend URL
+  origin: "https://wonderful-liger-9ebf7c.netlify.app", // Match frontend URL
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 }));
