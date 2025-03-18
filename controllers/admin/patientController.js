@@ -651,9 +651,7 @@ const createMeeting = async (req, res) => {
       const room = "room_" + Math.random().toString(36).substring(2, 9);
       // const meetingLink = `http://localhost:5173/patient/meeting/${room}`;
 
-      // const meetingLink = `http://localhost:5173/patient/meeting/${room}`;
-      const meetingLink = `https://ensembledemospace.com/patient/meeting/${room}`;
-
+      const meetingLink = `http://localhost:5173/patient/meeting/${room}`;
 
       // 4. Save Appointment to Database
       const newAppointment = await appointmentModel.create({

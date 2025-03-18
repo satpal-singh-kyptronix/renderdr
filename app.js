@@ -111,13 +111,20 @@ let rooms = {}; // Store room information (you could save to a DB)
 // app.js (relevant part)
 
 
+
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
+
+  socket.on("room:create", ({ room }) => {
+    rooms[room] = { doctorSocketId: socket.id };
+    console.log(`Room created: ${room} by doctor ${socket.id}`);
+    socket.join(room);
+  });
 
   socket.on("join:room", ({ roomId, role }) => {
     socket.join(roomId);
     console.log(`${role} joined room: ${roomId}`);
-    socket.to(roomId).emit("room:joined", { room: roomId, doctorId: socket.id });
+    socket.to(roomId).emit("room:joined", { room: roomId, doctorId: rooms[roomId]?.doctorSocketId });
   });
 
   socket.on("offer", ({ roomId, offer }) => {
@@ -137,11 +144,17 @@ io.on("connection", (socket) => {
 
   socket.on("leave:room", ({ roomId }) => {
     socket.leave(roomId);
+    console.log(`${socket.id} left room: ${roomId}`);
     socket.to(roomId).emit("user:left");
   });
 
   socket.on("disconnect", () => {
     console.log("User disconnected:", socket.id);
+    for (const room in rooms) {
+      if (rooms[room].doctorSocketId === socket.id) {
+        delete rooms[room];
+      }
+    }
   });
 });
 
